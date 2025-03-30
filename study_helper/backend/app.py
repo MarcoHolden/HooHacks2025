@@ -1,22 +1,24 @@
-from google import genai
 import os
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
+from google import genai
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={r"/upload": {"origins": "http://localhost:3000"},
+                     r"/quiz": {"origins": "http://localhost:3000"}})
+
+# Secret key for session management (Not used for session, just for CSRF protection)
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Configurations
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf', 'docx'}
-client = genai.Client(api_key="AIzaSyCKw3QNq_ytED9DWxt6yXIX0EUWuGDRj-U")  # Replace with your actual Gemini API URL
-# Helper function to check file extensions
-file_content = ""
+client = genai.Client(api_key="AIzaSyCKw3QNq_ytED9DWxt6yXIX0EUWuGDRj-U")
 
 # Helper function to check file extensions
 def allowed_file(filename):
@@ -25,8 +27,6 @@ def allowed_file(filename):
 # Upload endpoint to receive files
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    global file_content  # Use the global file_content variable to store the file content
-    
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
     
@@ -44,14 +44,14 @@ def upload_file():
         with open(file_path, 'r') as f:
             file_content = f.read()
 
-        # Call multiple functions to process the content
+        # Call functions to process the content
         summary = generate_summary(file_content)
         quiz = generate_quiz(file_content)
         multiple_choice_questions = generate_multiple_choice_questions(file_content)
 
-        # Return the results as a structured response
         return jsonify({
             "message": "File processed successfully",
+            "file_content": file_content,  # Send the file content directly
             "summary": summary,
             "quiz": quiz,
             "multiple_choice_questions": multiple_choice_questions
@@ -62,13 +62,12 @@ def upload_file():
 # Function to summarize the file content
 def generate_summary(file_content):
     try:
-        # Call the Gemini API to summarize the content
         response = client.models.generate_content(
             model="gemini-2.0-flash",
             contents=f"Please summarize the following content: {file_content}"
         )
         if response:
-            return response.text.strip()  # Return the summary
+            return response.text.strip()
         return "No summary generated"
     except Exception as e:
         return f"Error generating summary: {str(e)}"
@@ -76,14 +75,12 @@ def generate_summary(file_content):
 # Function to generate a quiz based on the file content
 def generate_quiz(file_content):
     try:
-        # In this example, we'll generate a simple quiz based on key points of the content.
-        # You can expand this logic to make it more sophisticated.
         response = client.models.generate_content(
             model="gemini-2.0-flash",
             contents=f"Please create a quiz based on the following content: {file_content}"
         )
         if response:
-            return response.text.strip()  # Return the quiz
+            return response.text.strip()
         return "No quiz generated"
     except Exception as e:
         return f"Error generating quiz: {str(e)}"
@@ -91,7 +88,6 @@ def generate_quiz(file_content):
 # Function to generate multiple choice questions based on the file content
 def generate_multiple_choice_questions(file_content):
     try:
-        # Make the prompt very specific to ensure the right HTML structure
         prompt = f"""
         Based on the content below, create multiple-choice questions. Return the questions in the following HTML format:
 
@@ -115,19 +111,11 @@ def generate_multiple_choice_questions(file_content):
         )
 
         if response:
-            # Ensure the response is in HTML format, strip any extra whitespace
             multiple_choice_questions_html = response.text.strip()
-
-            return {
-                "message": "File processed successfully",
-                "multiple_choice_questions": multiple_choice_questions_html,
-                "quiz": "Some Quiz Content",  # You can add more content if needed
-                "summary": "Summary of the text here."  # You can generate the summary if needed
-            }
-
+            return multiple_choice_questions_html
+        return "No multiple choice questions generated"
     except Exception as e:
-        return {"error": str(e)}
-
+        return f"Error generating MCQs: {str(e)}"
 
 if __name__ == '__main__':
     app.run(debug=True)
