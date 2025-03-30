@@ -1,54 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Recall from './components/Recall';
+import FileUpload from './components/FileUpload';
 
-function FileUpload() {
-    const [file, setFile] = useState(null);
-    const [responseMessage, setResponseMessage] = useState('');
+function App() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li><Link to="/upload">File Upload</Link></li>
+            <li><Link to="/recall">Recall</Link></li>
+            {/* ... other links */}
+          </ul>
+        </nav>
 
-    const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
-        setFile(selectedFile);
-    };
-
-    const handleFileUpload = async () => {
-        if (!file) {
-            setResponseMessage('Please select a file first!');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            //This is where things stop working
-            const response = await fetch('http://127.0.0.1:5000/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setResponseMessage(data.result.result); // ✅ Access inner result string
-            } else {
-                setResponseMessage(data.error || "Unknown error"); // ✅ Handle fallback error
-            }
-            
-        } catch (err) {
-            console.log(file);
-            console.error('Error uploading file:', err);
-            setResponseMessage('Error uploading file!');
-        }
-    };
-
-    return (
-        <div>
-            <h1>Upload a Document</h1>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleFileUpload}>Upload File</button>
-            <pre>{responseMessage}</pre>
-        </div>
-    );
+        <Routes>
+          <Route exact path="/recall" element={<Recall />} />  {/* Corrected line */}
+          <Route path="/upload" element={<FileUpload />} /> {/* Corrected line */}
+          {/* ... other routes */}
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default FileUpload;
-
+export default App;

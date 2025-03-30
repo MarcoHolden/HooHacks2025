@@ -43,6 +43,28 @@ def upload_file():
         return jsonify({"message": "File processed", "result": result})
     
     return jsonify({"error": "Invalid file type"}), 400
+@app.route('/recall', methods=['POST'])
+def process_text():
+    # Get the text from the request body
+    data = request.get_json()
+    text = data.get('text')
+
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
+    
+    try:
+        # Call Gemini API with the provided text
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",  # Replace with the actual model you're using
+            contents=text
+        )
+
+        if response:
+            return jsonify({"result": response.text})  # Send the corrected text
+        return jsonify({"error": "No response from Gemini API"}), 500
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # Function to process the file with Gemini model (or any AI model)
 def process_file_with_gemini(file_path):

@@ -1,0 +1,268 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 02:57:27] "OPTIONS /recall HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 02:57:39] "[35m[1mPOST /recall HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Menilik\\Documents\\HooHacks\\HooHacks2025-1\\study_helper\\backend\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 02:58:56] "OPTIONS /recall HTTP/1.1" 200 -
+DEBUG:root:Recall route called
+DEBUG:root:Received data: {'text': "Mitochondria doesn't exist"}
+DEBUG:root:User text: Mitochondria doesn't exist
+ERROR:root:Error in recall route
+Traceback (most recent call last):
+  File "C:\Users\Menilik\Documents\HooHacks\HooHacks2025-1\study_helper\backend\app.py", line 64, in handle_recall
+    gemini_response = genai.GenerativeModel('gemini-pro').generate_content(
+        f"Correct the following text: {user_text}"
+    )
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\generative_models.py", line 317, in generate_content
+    self._client = client.get_default_generative_client()
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 360, in get_default_generative_client
+    return _client_manager.get_default_client("generative")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 289, in get_default_client
+    client = self.make_client(name)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 249, in make_client
+    raise e
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 241, in make_client
+    client = cls(**self.client_config)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 667, in __init__
+    self._transport = transport_init(
+                      ~~~~~~~~~~~~~~^
+        credentials=credentials,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        api_audience=self._client_options.api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\grpc.py", line 235, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        host=host,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        api_audience=api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\base.py", line 100, in __init__
+    credentials, _ = google.auth.default(
+                     ~~~~~~~~~~~~~~~~~~~^
+        **scopes_kwargs, quota_project_id=quota_project_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\auth\_default.py", line 719, in default
+    raise exceptions.DefaultCredentialsError(_CLOUD_SDK_MISSING_CREDENTIALS)
+google.auth.exceptions.DefaultCredentialsError: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 02:59:08] "[35m[1mPOST /recall HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:00:50] "OPTIONS /recall HTTP/1.1" 200 -
+DEBUG:root:Recall route called
+DEBUG:root:Received data: {'text': 'f'}
+DEBUG:root:User text: f
+ERROR:root:Error in recall route
+Traceback (most recent call last):
+  File "C:\Users\Menilik\Documents\HooHacks\HooHacks2025-1\study_helper\backend\app.py", line 64, in handle_recall
+    gemini_response = genai.GenerativeModel('gemini-pro').generate_content(
+        f"Correct the following text: {user_text}"
+    )
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\generative_models.py", line 317, in generate_content
+    self._client = client.get_default_generative_client()
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 360, in get_default_generative_client
+    return _client_manager.get_default_client("generative")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 289, in get_default_client
+    client = self.make_client(name)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 249, in make_client
+    raise e
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 241, in make_client
+    client = cls(**self.client_config)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 667, in __init__
+    self._transport = transport_init(
+                      ~~~~~~~~~~~~~~^
+        credentials=credentials,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        api_audience=self._client_options.api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\grpc.py", line 235, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        host=host,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        api_audience=api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\base.py", line 100, in __init__
+    credentials, _ = google.auth.default(
+                     ~~~~~~~~~~~~~~~~~~~^
+        **scopes_kwargs, quota_project_id=quota_project_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\auth\_default.py", line 719, in default
+    raise exceptions.DefaultCredentialsError(_CLOUD_SDK_MISSING_CREDENTIALS)
+google.auth.exceptions.DefaultCredentialsError: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:01:02] "[35m[1mPOST /recall HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Menilik\\Documents\\HooHacks\\HooHacks2025-1\\study_helper\\backend\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:04:11] "OPTIONS /recall HTTP/1.1" 200 -
+DEBUG:root:Recall route called
+DEBUG:root:Received data: {'text': "Mitochondria doesn't exist"}
+DEBUG:root:User text: Mitochondria doesn't exist
+ERROR:root:Error in recall route
+Traceback (most recent call last):
+  File "C:\Users\Menilik\Documents\HooHacks\HooHacks2025-1\study_helper\backend\app.py", line 64, in handle_recall
+    gemini_response = genai.GenerativeModel('gemini-pro').generate_content(
+        f"Correct the following text: {user_text}"
+    )
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\generative_models.py", line 317, in generate_content
+    self._client = client.get_default_generative_client()
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 360, in get_default_generative_client
+    return _client_manager.get_default_client("generative")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 289, in get_default_client
+    client = self.make_client(name)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 249, in make_client
+    raise e
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 241, in make_client
+    client = cls(**self.client_config)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 667, in __init__
+    self._transport = transport_init(
+                      ~~~~~~~~~~~~~~^
+        credentials=credentials,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        api_audience=self._client_options.api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\grpc.py", line 235, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        host=host,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        api_audience=api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\base.py", line 100, in __init__
+    credentials, _ = google.auth.default(
+                     ~~~~~~~~~~~~~~~~~~~^
+        **scopes_kwargs, quota_project_id=quota_project_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\auth\_default.py", line 719, in default
+    raise exceptions.DefaultCredentialsError(_CLOUD_SDK_MISSING_CREDENTIALS)
+google.auth.exceptions.DefaultCredentialsError: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:04:23] "[35m[1mPOST /recall HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:05:18] "OPTIONS /recall HTTP/1.1" 200 -
+DEBUG:root:Recall route called
+DEBUG:root:Received data: {'text': 'Mitochondria is not the powerhouse of the cell'}
+DEBUG:root:User text: Mitochondria is not the powerhouse of the cell
+ERROR:root:Error in recall route
+Traceback (most recent call last):
+  File "C:\Users\Menilik\Documents\HooHacks\HooHacks2025-1\study_helper\backend\app.py", line 64, in handle_recall
+    gemini_response = genai.GenerativeModel('gemini-pro').generate_content(
+        f"Correct the following text: {user_text}"
+    )
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\generative_models.py", line 317, in generate_content
+    self._client = client.get_default_generative_client()
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 360, in get_default_generative_client
+    return _client_manager.get_default_client("generative")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 289, in get_default_client
+    client = self.make_client(name)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 249, in make_client
+    raise e
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\generativeai\client.py", line 241, in make_client
+    client = cls(**self.client_config)
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 667, in __init__
+    self._transport = transport_init(
+                      ~~~~~~~~~~~~~~^
+        credentials=credentials,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        api_audience=self._client_options.api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\grpc.py", line 235, in __init__
+    super().__init__(
+    ~~~~~~~~~~~~~~~~^
+        host=host,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        api_audience=api_audience,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\transports\base.py", line 100, in __init__
+    credentials, _ = google.auth.default(
+                     ~~~~~~~~~~~~~~~~~~~^
+        **scopes_kwargs, quota_project_id=quota_project_id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Menilik\AppData\Roaming\Python\Python313\site-packages\google\auth\_default.py", line 719, in default
+    raise exceptions.DefaultCredentialsError(_CLOUD_SDK_MISSING_CREDENTIALS)
+google.auth.exceptions.DefaultCredentialsError: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:05:30] "[35m[1mPOST /recall HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:06:13] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:06:16] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:06:32] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:06:33] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Menilik\\Documents\\HooHacks\\HooHacks2025-1\\study_helper\\backend\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 248-513-958
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:07:07] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [30/Mar/2025 03:07:16] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Menilik\\Documents\\HooHacks\\HooHacks2025-1\\study_helper\\backend\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
