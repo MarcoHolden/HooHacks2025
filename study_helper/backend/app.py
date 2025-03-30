@@ -9,7 +9,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
 
 # Configurations
 app.config['UPLOAD_FOLDER'] = 'uploads'

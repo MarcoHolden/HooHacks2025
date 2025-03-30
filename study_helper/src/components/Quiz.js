@@ -1,99 +1,87 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Question from './Question';
+import React, { useState } from 'react';
 
 function Quiz() {
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [questionPerformance, setQuestionPerformance] = useState({});
-  const [questionOrder, setQuestionOrder] = useState([]);
-  const [interactionData, setInteractionData] = useState([]);
-  const [persona, setPersona] = useState(null);
+    const [file, setFile] = useState(null);
+    const [responseMessage, setResponseMessage] = useState('');
+    const [multipleChoiceQuestions, setMultipleChoiceQuestions] = useState('');
+    const [quiz, setQuiz] = useState('');
+    const [summary, setSummary] = useState('');
 
-  useEffect(() => {
-    const fetchedQuestions = [
-      { id: 1, text: 'What is the capital of France?', answer: 'paris'},
-      { id: 2, text: 'What is 2 + 2?', answer: '4'},
-      { id: 3, text: 'What is the powerhouse of the cell?', answer:'mitochondria'},
-    ];
-    setQuestions(fetchedQuestions);
-    setQuestionOrder(fetchedQuestions.map((q) => q.id));
-  }, []);
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
+    };
 
-  const handleAnswer = (answer) => {
-    const currentQuestion = questions.find(
-        (q) => q.id === questionOrder[currentQuestionIndex]
-    );
-    const isCorrect = answer.toLowerCase().trim() === currentQuestion.answer;
+    const handleFileUpload = async () => {
+      if (!file) {
+          setResponseMessage('Please select a file first!');
+          return;
+      }
 
-    setQuestionPerformance((prev) => ({
-        ...prev,
-        [currentQuestion.id]: {
-            ...prev[currentQuestion.id],
-            attempts: (prev[currentQuestion.id]?.attempts || 0) + 1,
-            correct: isCorrect,
-        },
-    }));
+      const formData = new FormData();
+      formData.append("file", file);
 
+      try {
+          // Send the request
+          const response = await fetch('http://127.0.0.1:5000/upload', {
+              method: 'POST',
+              body: formData,
+          });
 
-    setAnswers([...answers, {questionId: currentQuestion.id, answer, isCorrect}]);
-    setInteractionData([
-        ...interactionData,
-        {
-            questionId: currentQuestion.id,
-            answer: answer,
-            isCorrect: isCorrect,
-            timestamp: Date.now(),
-        },
-    ]);
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-        generatePersona();
-    }
+          // Check if response is ok (status code 200)
+          if (response.ok) {
+              const data = await response.json(); // Parse the JSON response
+
+              // Log the full response data to the console for debugging
+              console.log("Full Response Data:", data);
+
+              // Log just the message to inspect it
+              console.log("Message:", data.message);
+
+              // Extract the correct values from the response
+              setResponseMessage(data.message);  // Display the 'message' part of the response
+
+              // Ensure you're passing the raw HTML string
+              setMultipleChoiceQuestions(data.multiple_choice_questions.multiple_choice_questions);
+              setQuiz(data.quiz);
+              setSummary(data.summary);
+          } else {
+              // Handle errors if response isn't ok (non-200 status)
+              const errorData = await response.json();
+              setResponseMessage(`Error: ${errorData.error}`);
+          }
+      } catch (err) {
+          console.error('Error uploading file:', err);
+          setResponseMessage('Error uploading file!');
+      }
   };
-
-  const adjustQuestionOrder = () => {
-    const incorrectQuestions = questionOrder.filter(
-        (id) => questionPerformance[id]?.correct === false
-    );
-    const correctQuestions = questionOrder.filter(
-        (id) => questionPerformance[id]?.correct !== false
-    );
-    setQuestionOrder([...incorrectQuestions, ...correctQuestions]);
-    setCurrentQuestionIndex(0)
-  };
-
-  const generatePersona = async () => {
-    try{
-        const response = await axios.post('/generate-persona', {interactionData});
-        setPersona(response.data.persona);
-    } catch (error) {
-        console.error('Error generating persona:', error);
-    }
-  };
-
-  if (questions.length === 0) {
-    return <div>Loading...</div>;
-  }
-
-  const currentQuestion = questions.find(
-    (q) => q.id === questionOrder[currentQuestionIndex]
-  )
 
   return (
-    <div>
-      {currentQuestionIndex < questions.length ? (
-        <Question
-          question={questions[currentQuestionIndex]}
-          onAnswer={handleAnswer}
-        />
-      ) : (
-        <div>Quiz completed!</div>
-      )}
-      {persona && <div>{persona}</div>}
-    </div>
+      <div style={{ margin: '20px', fontFamily: 'Arial, sans-serif' }}>
+          <h1>Upload a Document</h1>
+          <input type="file" onChange={handleFileChange} />
+          <button onClick={handleFileUpload} style={{ padding: '10px 20px', fontSize: '16px' }}>Upload File</button>
+          
+          <div style={{ marginTop: '20px' }}>
+              <h3 style={{ color: '#2c3e50' }}>Response Message:</h3>
+              <p style={{ fontSize: '18px', color: '#34495e' }}>{responseMessage}</p>
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+              <h3 style={{ color: '#2c3e50' }}>Multiple Choice Questions:</h3>
+              <div style={{ fontSize: '16px', color: '#2c3e50' }} dangerouslySetInnerHTML={{ __html: multipleChoiceQuestions }} />
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+              <h3 style={{ color: '#2c3e50' }}>Quiz:</h3>
+              <div style={{ fontSize: '16px', color: '#2c3e50' }} dangerouslySetInnerHTML={{ __html: quiz }} />
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+              <h3 style={{ color: '#2c3e50' }}>Summary:</h3>
+              <div style={{ fontSize: '16px', color: '#2c3e50' }} dangerouslySetInnerHTML={{ __html: summary }} />
+          </div>
+      </div>
   );
 }
 
