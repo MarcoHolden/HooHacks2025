@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Quiz() {
+function FileUpload() {
     const [file, setFile] = useState(null);
     const [responseMessage, setResponseMessage] = useState('');
     const [multipleChoiceQuestions, setMultipleChoiceQuestions] = useState('');
@@ -85,4 +85,4 @@ function Quiz() {
   );
 }
 
-export default Quiz;
+export default FileUpload;
