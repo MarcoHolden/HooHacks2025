@@ -29,7 +29,7 @@ const Recall = () => {
 
   return (
     <div>
-      <h1>AI Text Correction</h1>
+      <h1> Free Recall Prompt </h1>
       <form onSubmit={handleSubmit}>
         <textarea
           value={text}
