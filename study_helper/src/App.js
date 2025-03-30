@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 import FileUpload from './components/FileUpload';
 import Recall from './components/Recall';
+import Quiz from './components/Quiz';
 
 const App = () => {
   const [fileProcessed, setFileProcessed] = useState(false);  // This will track if the file has been processed
@@ -18,14 +19,17 @@ const App = () => {
             <li style={{ margin: '0 15px' }}>
               <Link to="/recall" style={linkStyle}>Recall Page</Link>
             </li>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/quiz" style={linkStyle}>Quiz</Link> {/* 👈 NEW Link */}
+            </li>
           </ul>
         </nav>
 
         {/* Routes */}
         <Routes>
           <Route path="/upload" element={<FileUpload setFileProcessed={setFileProcessed} />} />
-          {/* If file is processed, navigate to Recall page */}
           <Route path="/recall" element={fileProcessed ? <Recall /> : <Navigate to="/upload" />} />
+          <Route path="/quiz" element={<Quiz setFileProcessed={setFileProcessed} />} />
         </Routes>
       </div>
     </Router>
