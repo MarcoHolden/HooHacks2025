@@ -14,7 +14,7 @@ CORS(app)
 # Configurations
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf', 'docx'}
-client = genai.Client(api_key="AIzaSyCKw3QNq_ytED9DWxt6yXIX0EUWuGDRj-U")  # Replace with your actual Gemini API URL
+client = genai.Client(api_key="AIzaSyBDm-2Jo9dVvZwHxSQFzzda2Ngo3N7PM5c")  # Replace with your actual Gemini API URL
 # Helper function to check file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']

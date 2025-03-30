@@ -28,10 +28,11 @@ function FileUpload() {
             const data = await response.json();
 
             if (response.ok) {
-                setResponseMessage(`Processed Data: ${JSON.stringify(data.result)}`);
+                setResponseMessage(data.result.result); // ✅ Access inner result string
             } else {
-                setResponseMessage(`Error: ${data.error}`);
+                setResponseMessage(data.error || "Unknown error"); // ✅ Handle fallback error
             }
+            
         } catch (err) {
             console.log(file);
             console.error('Error uploading file:', err);
@@ -44,7 +45,7 @@ function FileUpload() {
             <h1>Upload a Document</h1>
             <input type="file" onChange={handleFileChange} />
             <button onClick={handleFileUpload}>Upload File</button>
-            <div>{responseMessage}</div>
+            <pre>{responseMessage}</pre>
         </div>
     );
 }
