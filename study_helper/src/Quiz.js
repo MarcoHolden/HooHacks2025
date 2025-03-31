@@ -1,64 +1,52 @@
-import React, { useState } from "react";
+// Quiz.js
+import React, { useState, useEffect } from "react";
+import { useFile } from './FileContext'; // Import the context
 
-// Quiz Component
 const Quiz = () => {
-  const [file, setFile] = useState(null); // Holds the file to upload
-  const [quizData, setQuizData] = useState(null); // Holds the quiz, summary, and questions
-  const [error, setError] = useState(null); // Holds any error messages
+  const { file } = useFile(); // Access the file from context
+  const [quizData, setQuizData] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Handle file selection
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+  useEffect(() => {
+    if (file) {
+      const handleFileUpload = async () => {
+        const formData = new FormData();
+        formData.append("file", file);
 
-  // Upload the file and retrieve the quiz data
-  const handleFileUpload = async () => {
-    if (!file) {
-      setError("Please select a file to upload.");
-      return;
+        try {
+          const response = await fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            setQuizData({
+              summary: data.summary,
+              quiz: data.quiz,
+              multipleChoiceQuestions: data.multiple_choice_questions,
+            });
+            setError(null);
+          } else {
+            setError(data.error || "Error uploading file.");
+          }
+        } catch (err) {
+          setError("Error connecting to server.");
+        }
+      };
+
+      handleFileUpload();
     }
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("http://127.0.0.1:5000/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setQuizData({
-          summary: data.summary,
-          quiz: data.quiz,
-          multipleChoiceQuestions: data.multiple_choice_questions,
-        });
-        setError(null); // Clear any previous errors
-      } else {
-        setError(data.error || "Error uploading file.");
-      }
-    } catch (err) {
-      setError("Error connecting to server.");
-    }
-  };
+  }, [file]); // Trigger upload when file changes
 
   return (
     <div>
-      <h1>Upload a File to Generate a Quiz</h1>
+      <h1>Quiz Results</h1>
 
-      {/* File input */}
-      <input type="file" onChange={handleFileChange} />
-
-      {/* Upload button */}
-      <button onClick={handleFileUpload}>Upload File</button>
-
-      {/* Display error if any */}
       {error && <div style={{ color: "red" }}>{error}</div>}
 
-      {/* Display the quiz data */}
-      {quizData && (
+      {quizData ? (
         <div>
           <h2>Summary</h2>
           <p>{quizData.summary}</p>
@@ -73,6 +61,8 @@ const Quiz = () => {
             }}
           />
         </div>
+      ) : (
+        <p>Waiting for file upload...</p>
       )}
     </div>
   );

@@ -88,9 +88,11 @@
 // export default FileUpload;
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { FileProvider } from './FileContext';
 import FileUpload from './FileUpload';
 import FreeRecall from './FreeRecall'; // Changed to match correct file name
 import Quiz from './Quiz';
+
 
 // Create a component for the home page with a button
 function HomePage() {
@@ -110,14 +112,16 @@ function HomePage() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/upload" element={<FileUpload />} />
-        <Route path="/recall" element={<FreeRecall />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/" element={<HomePage />} /> {/* Home page with button */}
-      </Routes>
-    </Router>
+    <FileProvider>
+      <Router>
+        <Routes>
+          <Route path="/upload" element={<FileUpload />} />
+          <Route path="/recall" element={<FreeRecall />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/" element={<HomePage />} /> {/* Home page with button */}
+        </Routes>
+      </Router>
+    </FileProvider>
   );
 }
 

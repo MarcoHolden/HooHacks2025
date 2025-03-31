@@ -1,29 +1,31 @@
 // FileUpload.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useFile } from './FileContext';
 
 function FileUpload() {
   const navigate = useNavigate(); // Initialize the navigate hook
-  const [file, setFile] = useState(null); // State to store the selected file
+  const { setFile } = useFile(); 
+  const [localFile, setLocalFile] = useState(null); // State to store the selected file
 
   // Handle file selection
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Set the selected file into state
+    setLocalFile(e.target.files[0]); // Set the selected file into state
   };
 
   // Handle form submission (e.g., upload file)
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    if (!file) {
+    if (!localFile) {
       alert('Please select a file to upload!');
       return;
     }
 
     // You would normally upload the file here, using an API or similar.
     // For now, let's simulate the file upload with a timeout.
-    console.log('Uploading file:', file.name);
-
+    console.log('Uploading file:', localFile.name);
+    setFile(localFile);
     // Simulate file upload process with a timeout
     setTimeout(() => {
       alert('File uploaded successfully!');
@@ -45,7 +47,7 @@ function FileUpload() {
         <button type="submit">Upload File</button>
       </form>
 
-      {file && <p>Selected File: {file.name}</p>} {/* Show selected file name */}
+      {localFile && <p>Selected File: {localFile.name}</p>} {/* Show selected file name */}
     </div>
   );
 }
